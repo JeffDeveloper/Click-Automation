@@ -27,6 +27,7 @@ class Settings:
     position: tuple[int, int] | None
     limit: int | None
 
+# Class controls auto clicker functionality.
 class AutoClicker:
     def __init__(self, root: tk.Tk) -> None:
         self.root = root
@@ -178,6 +179,7 @@ class AutoClicker:
         self.status.set("Starting...")
         threading.Thread(target=self.click_loop, args=(self.run_id, self.stop_event, settings), daemon=True).start()
 
+    # This function clicks the mouse.
     def click_loop(self, run_id: int, stop_event: threading.Event, settings: Settings) -> None:
         if stop_event.wait(settings.delay):
             return
@@ -196,7 +198,8 @@ class AutoClicker:
                 return
             if stop_event.wait(settings.interval):
                 return
-
+            
+    # This function checks if F6 is presssed to start or stop.
     def poll(self) -> None:
         f6_down = bool(user32.GetAsyncKeyState(F6) & 0x8000)
         if f6_down and not self.f6_was_down:
